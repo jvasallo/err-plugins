@@ -1,0 +1,11 @@
+[Core]
+Name = Zendesk
+Module = zendesk
+
+[Python]
+Version = 2+
+
+[Documentation]
+Description = Zendesk plugin
+
+
