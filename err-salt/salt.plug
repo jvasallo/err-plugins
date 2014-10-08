@@ -1,0 +1,6 @@
+[Core]
+Name = Salt
+Module = salt
+
+[Documentation]
+Description = Salt plugin to execute remote commands
