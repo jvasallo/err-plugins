@@ -1,0 +1,6 @@
+[Core]
+Name = Ping
+Module = ping
+
+[Documentation]
+Description = This plugin to is to determine if bot is alive
