@@ -3,7 +3,7 @@ from errbot import BotPlugin, botcmd
 import requests
 
 class Jira(BotPlugin):
-    """Plugin to run salt commands on hosts"""
+    """Plugin for Jira"""
 
     def get_configuration_template(self):
         """ configuration entries """
