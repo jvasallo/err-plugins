@@ -3,7 +3,7 @@ from errbot import BotPlugin, botcmd
 import requests
 
 class Zendesk(BotPlugin):
-    """Plugin to run salt commands on hosts"""
+    """Plugin for Zendesk"""
 
     def get_configuration_template(self):
         """ configuration entries """
