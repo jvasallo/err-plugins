@@ -140,8 +140,8 @@ class VMware(BotPlugin):
             !vmware clone --cpu=2 --mem=2048 --pool=DEV --dnsdomain=example.com --puppet app-server1
         '''
         parser = OptionParser()
-        parser.add_option("--cpu", dest="cpu", default=1)
-        parser.add_option("--mem", dest="mem", default=1024)
+        parser.add_option("--cpu", dest="cpu", type='int', default=1)
+        parser.add_option("--mem", dest="mem", type='int', default=1024)
         parser.add_option("--tmpl", dest="tmpl", default=self.config['template'])
         parser.add_option("--pool", dest="pool", default=self.config['resource_pool'])
         parser.add_option("--dnsdomain", dest="dnsdomain", default=self.config['vm_dnsdomain'])
