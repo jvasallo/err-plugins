@@ -137,7 +137,7 @@ class VMware(BotPlugin):
                 vcenter (str): vcenter server
                 puppet (bool): run puppet after provisioning
             example:
-            !vmware clone --cpu=2 --mem=2048 --pool=DEV --dnsdomain=example.com --puppet
+            !vmware clone --cpu=2 --mem=2048 --pool=DEV --dnsdomain=example.com --puppet app-server1
         '''
         parser = OptionParser()
         parser.add_option("--cpu", dest="cpu", default=1)
