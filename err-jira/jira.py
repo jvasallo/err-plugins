@@ -17,8 +17,7 @@ class Jira(BotPlugin):
 
     @botcmd(split_args_with=' ')
     def jira(self, msg, args):
-        """<ticket>
-
+        """
         Returns the subject of the ticket along with a link to it.
         """
 
