@@ -34,7 +34,9 @@ class VMware(BotPlugin):
 
     @botcmd(split_args_with=' ')
     def vmware_migrate(self, msg, args):
-        """ vmware migrate <msg> <args> 
+        """ Vmotion vm to a specific esx host
+        Example:
+            vmware migrate server1 esxhost2 
         """
         username = self.config['user']
         password = self.config['pass']
