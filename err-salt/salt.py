@@ -53,4 +53,4 @@ class Salt(BotPlugin):
         auth = api.login(self.config['api_user'], self.config['api_pass'], self.config['api_auth'])
         ret = api.local(targets, action, arg=args, kwarg=None, expr_form='pcre')
         results = json.dumps(ret, sort_keys=True, indent=4)
-        self.send(msg.getFrom(), results, message_type=msg.getType())
+        self.send(msg.getFrom(), self.paste_code(results), message_type=msg.getType())
