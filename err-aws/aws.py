@@ -184,7 +184,8 @@ class AWS(BotPlugin):
                                   ex_metadata=base_tags)
 
         self.send(msg.getFrom(), '{0}: [1/3] Creating instance'.format(vmname), message_type=msg.getType())
-        time.sleep(30)
+        # todo: actually query state of instance
+        #time.sleep(30)
         self.send(msg.getFrom(), '{0}: [2/3] Running post setup'.format(vmname), message_type=msg.getType())
 
         if options['puppet']:
