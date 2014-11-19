@@ -53,14 +53,19 @@ class AWS(BotPlugin):
 
     def _basic_instance_details(self, name):
         instance = self._find_instance_by_name(name)
-        details = {
-            'id': instance.id,
-            'status': NodeState.tostring(instance.state),
-            'ip-private': instance.private_ips,
-            'ip-public': instance.public_ips,
-            'security_groups': instance.extra['groups'],
-            'keypair': instance.extra['key_name'],
-        }
+
+        if instance is not None:
+            details = {
+                'id': instance.id,
+                'status': NodeState.tostring(instance.state),
+                'ip-private': instance.private_ips,
+                'ip-public': instance.public_ips,
+                'security_groups': instance.extra['groups'],
+                'keypair': instance.extra['key_name'],
+            }
+        else:
+            details = {'error': 'instance named {0} not found.'.format(name)}
+
         return details
 
     @botcmd(split_args_with=' ')
