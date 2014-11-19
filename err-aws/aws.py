@@ -1,7 +1,7 @@
 from errbot import BotPlugin, botcmd
 from optparse import OptionParser
 
-from libcloud.compute.types import Provider
+from libcloud.compute.types import Provider, NodeState
 from libcloud.compute.providers import get_driver
 from libcloud.compute.base import NodeImage
 from libcloud.compute.drivers.ec2 import EC2SubnetAssociation
@@ -39,26 +39,75 @@ class AWS(BotPlugin):
         driver = cls(access_id, secret_key)
         return driver
 
+    def _find_instance_by_name(self, name):
+        driver = self._connect()
+        for instance in driver.list_nodes():
+            if instance.name == name:
+                return instance
+                
+    def _find_instance_by_id(self, id):
+        driver = self._connect()
+        for instance in driver.list_nodes():
+            if instance.id == id:
+                return instance
+
+    def _basic_instance_details(self, name):
+        instance = self._find_instance_by_name(name)
+        details = {
+            'id': instance.id,
+            'status': NodeState.tostring(instance.state),
+            'ip-private': instance.private_ips,
+            'ip-public': instance.public_ips,
+            'security_groups': instance.extra['groups'],
+            'keypair': instance.extra['key_name'],
+        }
+        return details
+
+    @botcmd(split_args_with=' ')
+    def aws_info(self, msg, args):
+        ''' get details of a virtual machine
+            options: name
+        '''
+        vmname = args.pop(0)
+        details = self._basic_instance_details(vmname)
+        self.send(msg.getFrom(), '{0}: {1}'.format(vmname, details), message_type=msg.getType())
+
     @botcmd
-    def aws_vm_reboot(self, msg, args):
+    def aws_reboot(self, msg, args):
         ''' reboot a virtual machine
             options:
                 vm (name): name of virtual machine
             example:
             !aws vm_reboot log1
         '''
-        return '[feature disabled]'
+        vm = self._find_instance_by_name(args)
+        result = vm.reboot()
+        response = ''
+        if result:
+            response = 'Successfully sent request to reboot.'
+        else:
+            response = 'Unable to complete request.'
+
+        self.send(msg.getFrom(), '{0}: {1}'.format(vm.name, response), message_type=msg.getType())
 
 
     @botcmd
-    def aws_vm_terminate(self, msg, args):
+    def aws_terminate(self, msg, args):
         ''' terminate/destroy a virtual machine
             options:
                 vm (name): name of instance
             example:
             !aws vm_terminate log1
         '''
-        return '[feature disabled]'
+        vm = self._find_instance_by_name(args)
+        result = vm.destroy()
+        msg = ''
+        if result:
+            msg = 'Successfully sent request to terminate instance.'
+        else:
+            msg = 'Unable to complete request.'
+
+        self.send(msg.getFrom(), '{0}: {1}'.format(vm.name, msg), message_type=msg.getType())
 
     @botcmd(split_args_with=' ')
     def aws_create(self, msg, args):
@@ -138,4 +187,5 @@ class AWS(BotPlugin):
             self.send(msg.getFrom(), '{0}: Running puppet [disabled]'.format(vmname), message_type=msg.getType())
 
         self.send(msg.getFrom(), '{0}: [3/3] Request completed'.format(vmname), message_type=msg.getType())
+        self.send(msg.getFrom(), '{0}: {1}'.format(vmname, self._basic_instance_details(vmname)), message_type=msg.getType())
 
