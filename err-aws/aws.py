@@ -62,6 +62,7 @@ class AWS(BotPlugin):
                 'ip-public': instance.public_ips,
                 'security_groups': instance.extra['groups'],
                 'keypair': instance.extra['key_name'],
+                'instance_type': instance.extra['instance_type'],
             }
         else:
             details = {'error': 'instance named {0} not found.'.format(name)}
