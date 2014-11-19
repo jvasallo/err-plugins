@@ -101,13 +101,13 @@ class AWS(BotPlugin):
         '''
         vm = self._find_instance_by_name(args)
         result = vm.destroy()
-        msg = ''
+        response = ''
         if result:
-            msg = 'Successfully sent request to terminate instance.'
+            response = 'Successfully sent request to terminate instance.'
         else:
-            msg = 'Unable to complete request.'
+            response = 'Unable to complete request.'
 
-        self.send(msg.getFrom(), '{0}: {1}'.format(vm.name, msg), message_type=msg.getType())
+        self.send(msg.getFrom(), '{0}: {1}'.format(vm.name, response), message_type=msg.getType())
 
     @botcmd(split_args_with=' ')
     def aws_create(self, msg, args):
