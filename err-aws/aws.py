@@ -15,15 +15,15 @@ class AWS(BotPlugin):
     def get_configuration_template(self):
         """ configuration entries """
         config = {
-            'access_id': '',
-            'secret_key': '',
-            'ami': '',
-            'keypair': '',
-            'subnet_id': '',
-            'route_table_id': '',
+            'access_id': None,
+            'secret_key': None,
+            'ami': None,
+            'keypair': None,
+            'subnet_id': None,
+            'route_table_id': None,
             'volume_size': 1,
-            'instance_type': '',
-            'datacenter': '',
+            'instance_type': None,
+            'datacenter': None,
             'puppet': False,
         }
         return config
